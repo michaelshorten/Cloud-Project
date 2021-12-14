@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QUBeditotron3000</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      function isUrlValid(url, cb) {
+        jQuery.ajax({
+          url: url,
+          dataType: "text",
+          type: "GET",
+          complete: function (xhr) {
+            if (typeof cb === "function") cb.apply(this, [xhr.status]);
+          },
+        });
+      }
+      let proxyURL;
+
+      fetch("routes.json")
+        .then((response) => response.json())
+        .then((data) => {
+          proxyURL = data.proxy;
+          isUrlValid(proxyURL, function (status) {
+            if (status === 200) {
+              console.log("URL " + proxyURL);
+              console.log("STATUS CODE = " + status);
+              console.log("SUCCESS");
+              console.log("");
+            } else {
+              status = 503;
+              console.log("URL " + proxyURL);
+              console.log("STATUS CODE = " + status);
+              console.log("UNSUCCESSFUL");
+              console.log(status);
+              proxyURL = data.proxyBackUp;
+              console.log("NOW USING BACK UP URL: " + proxyURL);
+            }
+          });
+        });
+
+      function Wordcount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.answer;
+            console.log("WORD COUNT= " + j.answer);
+          }
+        };
+        let url =
+          proxyURL +
+          "/wordcount" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+
+      function Charcount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.answer;
+            console.log("CHARACTER COUNT= " + j.answer);
+            console.log(j.answer);
+          }
+        };
+
+        let url =
+          proxyURL +
+          "/charcount" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+
+      function VowelCount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.result;
+            console.log("VOWEL COUNT= " + j.result);
+          }
+        };
+
+        let url =
+          proxyURL +
+          "/vowelcount" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+
+      function CommaCount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.answer;
+            console.log("COMMA COUNT= " + j.answer);
+          }
+        };
+
+        let url =
+          proxyURL +
+          "/commacount" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+      function FullstopCount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.result;
+            console.log("FULLSTOP COUNT= " + j.result);
+          }
+        };
+
+        let url =
+          proxyURL +
+          "/fullstop" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+
+      function ConstanantCount() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var j = JSON.parse(this.response);
+            if (j.error == true) {
+              alert("error: " + j.error + "  - " + j.errorMessage);
+            }
+            document.getElementById("output").value = j.answer;
+            console.log("CONSONANT COUNT= " + j.answer);
+          }
+        };
+
+        let url =
+          proxyURL +
+          "/constcount" +
+          "/?input=" +
+          encodeURI(document.getElementById("content").value);
+        var inp = document.getElementById("content").value;
+
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+    </script>
+    <style type="text/css">
+      body {
+        font-size: 150%;
+        font-family: monospace;
+      }
+
+      #logo {
+        font-family: Calibri, sans-serif;
+        font-weight: lighter;
+        color: #505050;
+        margin: 0.5em;
+      }
+
+      #editor {
+        text-align: center;
+        margin-top: 1em;
+      }
+
+      #output {
+        font-size: 100%;
+        padding: 0.2em;
+        margin: 0.2em;
+        font-family: monospace;
+        letter-spacing: 0.1em;
+      }
+
+      #content {
+        font-size: 100%;
+        padding: 0.2em;
+        margin: 0.2em;
+        font-family: monospace;
+        letter-spacing: 0.1em;
+      }
+      #recall {
+        font-size: 100%;
+        padding: 0.2em;
+        margin: 0.2em;
+        font-family: monospace;
+        letter-spacing: 0.1em;
+        width: 100px;
+        height: 10px;
+      }
+
+      .operation {
+        border: solid #d0d0d0 1px;
+        background-color: #f0f0f0;
+        padding: 1.5em;
+        margin: 1em;
+        width: 14em;
+      }
+      label {
+        display: inline-block;
+        width: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="editor">
+      <div id="logo">QUBeditotron3000</div>
+      <div>
+        <textarea rows="5" cols="40" id="content">
+It was the best of cloud, it was the worst of cloud...</textarea
+        >
+      </div>
+      <div>
+        <input type="text" id="output" readonly="1" value="" />
+      </div>
+      <div>
+        <button class="operation" id="WordCountBTN" onclick="Wordcount();">
+          Word Count
+        </button>
+        <button class="operation" onclick="Charcount();">
+          Character Count
+        </button>
+      </div>
+      <div>
+        <button class="operation" onclick="VowelCount();">Vowel Count</button>
+        <button class="operation" onclick="ConstanantCount();">
+          Constanant Count
+        </button>
+      </div>
+      <div>
+        <button class="operation" onclick="CommaCount();">Comma Count</button>
+        <button class="operation" onclick="FullstopCount();">
+          Fullstop Count
+        </button>
+      </div>
+      <div>
+        <button id="saveBtn" class="operation" onclick="">Save Value</button>
+        <script type="module">
+          // Import the functions you need from the SDKs you need
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+          // TODO: Add SDKs for Firebase products that you want to use
+          // https://firebase.google.com/docs/web/setup#available-libraries
+
+          // Your web app's Firebase configuration
+          const firebaseConfig = {
+            apiKey: "AIzaSyCBP43cAqfzb6xNOxn5CUNElaDbj5eBnMc",
+            authDomain: "editordb-d67c8.firebaseapp.com",
+            projectId: "editordb-d67c8",
+            storageBucket: "editordb-d67c8.appspot.com",
+            messagingSenderId: "645710486093",
+            appId: "1:645710486093:web:0a5c9d0ab8e4d8c4c25a04",
+          };
+
+          // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+
+          import {
+            getDatabase,
+            ref,
+            set,
+            child,
+            get,
+            update,
+            remove,
+          } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+          const db = getDatabase();
+          var inputbox = document.getElementById("content");
+          var recallbox = document.getElementById("recall");
+          var saveBtn = document.getElementById("saveBtn");
+          var recallBtn = document.getElementById("recallBtn");
+          var id = Math.floor(Math.random() * (3000 - 0 + 1)) + 0;
+          function InsertData() {
+            if (inputbox.value != "") {
+              set(ref(db, "EditorInput/" + id), {
+                Input: inputbox.value,
+              });
+              alert("Data Saved");
+              console.log("Data Saved: " + inputbox.value);
+              console.log("Recall ID: " + id);
+              id++;
+            } else {
+              alert("Error, Enter Value");
+              console.log("Error: No Value Entered");
+            }
+          }
+          function SelectData() {
+            const dbref = ref(db);
+            get(child(dbref, "EditorInput/" + recallbox.value))
+              .then((snapshot) => {
+                if (snapshot.exists() & (recallbox.value != "")) {
+                  inputbox.value = snapshot.val().Input;
+                  console.log("ID Recalled: " + recallbox.value);
+                  console.log("Input: " + inputbox.value);
+                } else if (recallbox.value == "") {
+                  alert("Error, Enter ID");
+                  console.log("Error: No ID Entered");
+                }
+              })
+              .catch((error) => {
+                alert("unsuccessful, error" + error);
+              });
+          }
+          saveBtn.addEventListener("click", InsertData);
+          recallBtn.addEventListener("click", SelectData);
+        </script>
+        <textarea rows="5" cols="40" id="recall"></textarea>
+        <button id="recallBtn" class="operation" onclick="">Recall</button>
+      </div>
+      <div>
+        <button class="operation" onclick="">??</button>
+        <button class="operation" onclick="">??</button>
+      </div>
+    </div>
+  </body>
+</html>

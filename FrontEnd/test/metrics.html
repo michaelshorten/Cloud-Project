@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <body>
+      <script type="text/javascript">
+        let wrd;
+        let chr;
+        let vwl;
+        let cst;
+        let cma;
+        let fst;
+        let wrdURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/wordcount/?input=test.,";
+        let chrURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/charcount/?input=test.,";
+        let vwlURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/vowelcount/?input=test.,";
+        let consURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/constcount/?input=test.,";
+        let cmaURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/commacount/?input=test.,";
+        let fstURL =
+          "http://editor-proxy.40266686.qpc.hal.davecutting.uk/fullstop/?input=test.,";
+
+        fetch("./expectedResult.json")
+          .then((response) => response.json())
+          .then((data) => {
+            wrd = data.wrdExpResult;
+            chr = data.chrExpResult;
+            vwl = data.vwlExpResult;
+            cst = data.cstExpResult;
+            cma = data.cmaExpResult;
+            fst = data.fstExpResult;
+            document.getElementById("wrd").innerHTML = wrd;
+            document.getElementById("chr").innerHTML = chr;
+            document.getElementById("vwl").innerHTML = vwl;
+            document.getElementById("cst").innerHTML = cst;
+            document.getElementById("cma").innerHTML = cma;
+            document.getElementById("fst").innerHTML = fst;
+          });
+
+        function TestWordcount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: WordCount");
+              console.log("Answer: " + j.answer);
+              console.log("Expected: " + wrd);
+              document.getElementById("wrdRes").innerHTML = j.answer;
+              if (j.answer == wrd) {
+                document.getElementById("wrdStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("wrdStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", wrdURL);
+          xhttp.send();
+        }
+        function TestCharcount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: CharCount");
+              console.log("Answer: " + j.answer);
+              console.log("Expected: " + chr);
+              document.getElementById("chrRes").innerHTML = j.answer;
+              if (j.answer == chr) {
+                document.getElementById("chrStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("chrStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", chrURL);
+          xhttp.send();
+        }
+        function TestVwlcount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: VowelCount");
+              console.log("Answer: " + j.result);
+              console.log("Expected: " + vwl);
+              document.getElementById("vwlRes").innerHTML = j.result;
+              if (j.result == vwl) {
+                document.getElementById("vwlStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("vwlStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", vwlURL);
+          xhttp.send();
+        }
+        function TestConscount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: ConsonantCount");
+              console.log("Answer: " + j.answer);
+              console.log("Expected: " + cst);
+              document.getElementById("consRes").innerHTML = j.answer;
+              if (j.answer == cst) {
+                document.getElementById("cstStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("cstStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", consURL);
+          xhttp.send();
+        }
+        function TestCommacount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: CommaCount");
+              console.log("Answer: " + j.answer);
+              console.log("Expected: " + cma);
+              document.getElementById("comRes").innerHTML = j.answer;
+              if (j.answer == cma) {
+                document.getElementById("cmaStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("cmaStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", cmaURL);
+          xhttp.send();
+        }
+        function TestFullstopCount() {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var j = JSON.parse(this.response);
+              console.log("Function: FullstopCount");
+              console.log("Answer: " + j.result);
+              console.log("Expected: " + fst);
+              document.getElementById("fstRes").innerHTML = j.result;
+              if (j.result == fst) {
+                document.getElementById("fstStat").innerHTML = "PASSED";
+              } else {
+                document.getElementById("fstStat").innerHTML = "FAILED";
+              }
+            }
+          };
+          xhttp.open("GET", fstURL);
+          xhttp.send();
+        }
+        function loadData() {
+          TestWordcount();
+          TestCharcount();
+          TestVwlcount();
+          TestConscount();
+          TestCommacount();
+          TestFullstopCount();
+        }
+      </script>
+      <style>
+        tr:nth-child(even) {
+          background-color: rgba(150, 212, 212, 0.4);
+        }
+
+        th:nth-child(even),
+        td:nth-child(even) {
+          background-color: rgba(150, 212, 212, 0.4);
+        }
+      </style>
+      <table>
+        <tr>
+          <th>Function</th>
+          <th>Expected Result</th>
+          <th>Actual Result</th>
+          <th>Pass/Fail</th>
+        </tr>
+        <tr>
+          <td>Word Count</td>
+          <td id="wrd"></td>
+          <td id="wrdRes"></td>
+          <td id="wrdStat"></td>
+        </tr>
+        <tr>
+          <td>Char Count</td>
+          <td id="chr"></td>
+          <td id="chrRes"></td>
+          <td id="chrStat"></td>
+        </tr>
+        <tr>
+          <td>Vowel Count</td>
+          <td id="vwl"></td>
+          <td id="vwlRes"></td>
+          <td id="vwlStat"></td>
+        </tr>
+        <tr>
+          <td>Consonant Count</td>
+          <td id="cst"></td>
+          <td id="consRes"></td>
+          <td id="cstStat"></td>
+        </tr>
+        <tr>
+          <td>Comma Count</td>
+          <td id="cma"></td>
+          <td id="comRes"></td>
+          <td id="cmaStat"></td>
+        </tr>
+        <tr>
+          <td>Fullstop Count</td>
+          <td id="fst"></td>
+          <td id="fstRes"></td>
+          <td id="fstStat"></td>
+        </tr>
+      </table>
+      <button class="operation" onclick="loadData()">Get Test Results</button>
+    </body>
+  </head>
+</html>
