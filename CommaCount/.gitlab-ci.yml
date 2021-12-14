@@ -1,0 +1,6 @@
+image: maven:latest
+
+test:
+  script:
+    - cd rest-service
+    - mvn test
